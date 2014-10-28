@@ -1,0 +1,15 @@
+var tuotelista = [
+		{"tuotenimi":"Appelsiineja"},
+		{"tuotenimi":"Banaaneja"},
+		{"tuotenimi":"Kurkkua"},
+		{"tuotenimi":"Tomaatteja"},
+		{"tuotenimi":"Salaattia"},
+		{"tuotenimi":"Leikkele"},
+		{"tuotenimi":"Juusto"},
+		{"tuotenimi":"Leipä"},
+		{"tuotenimi":"Maitoa"},
+		{"tuotenimi":"Piimää"},
+		{"tuotenimi":"Muroja"},
+		{"tuotenimi":"Kissanruokaa"},
+		{"tuotenimi":"Pakasteet"}
+		]

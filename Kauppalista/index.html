@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="utf-8">
+	<title>Ostoslista</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../common-js/jquery.mobile-1.4.4.min.css" />
+	<script src="../common-js/jquery-1.11.1.min.js"></script>
+	<script src="../common-js/jquery.mobile-1.4.4.min.js"></script>
+	<script src="data.json"></script>	
+	<style>
+		legend { font-weight: bold; }
+		#tuotelista { margin-top: 20px; }
+		#ostoslista { font-size: 150%; font-weight: bold;}
+		.ui-content { margin-top: 60px; }
+		.footer-button-left,
+		.footer-button-right {
+			position: absolute;
+			margin: 0;
+			top: auto;
+			bottom: 0.24em;
+		}
+		.footer-button-left {
+			left: 0.4em;
+		}
+		.footer-button-right {
+			right: 0.4em;
+		}
+	</style>
+	<script>
+		var tuotelistaJSON = '';
+		var ostoslistaJSON = '';
+
+		function bootstrap() {
+			if(localStorage) {
+				if(localStorage.getItem('tuotelista') != null && localStorage.getItem('ostoslista') != null) {
+					tuotelistaJSON = JSON.parse(localStorage.getItem('tuotelista'));
+					ostoslistaJSON = JSON.parse(localStorage.getItem('ostoslista'));
+				} else {
+					tuotelistaJSON = tuotelista;
+					ostoslistaJSON = '';
+				}
+			} else {
+				console.log('Paikallinen tallentaminen ei ole tuettu!');
+				tuotelistaJSON = tuotelista;
+				ostoslistaJSON = '';
+			}	
+		}
+	</script>
+</head>
+<body>
+
+<!-- Start of main page -->
+<div data-role="page" id="main">
+
+	<div data-role="header" data-fullscreen="true" data-position="fixed">
+	        <h1>Ostoslista</h1>
+			<button id="setLocalStorage" class="ui-btn-right ui-btn ui-btn-a ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Tallenna</button>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<p>
+		<form class="ui-filterable">
+			<input id="rich-autocomplete-input" data-type="search" placeholder="Anna tuotteen nimi tai nimen osa">
+		</form>
+		</p>
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<fieldset data-role="controlgroup" data-theme="a" data-mini="true">
+					<legend>Valitut tuotteet:</legend>	
+					<ul id="ostoslista" data-role="listview" data-filter="true" data-inset="true" data-input="#rich-autocomplete-input"></ul>
+				</fieldset>
+			</div>
+			<div class="ui-block-b">
+				<fieldset data-role="controlgroup" data-theme="b" data-mini="true">
+					<legend>Käytettävissä:</legend>
+					<ul id="tuotelista" data-role="listview" data-filter="true" data-inset="true" data-input="#rich-autocomplete-input"></ul>
+				</fieldset>
+			</div>
+		</div><!-- /grid-a -->
+
+	</div><!-- /content -->
+
+	<div data-role="footer" data-fullscreen="true" data-position="fixed">
+    <a href="#about" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-info">Tietoa ohjelmasta</a>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+<!-- Start of about page -->
+<div data-role="page" id="about">
+
+	<div data-role="header" data-fullscreen="true" data-position="fixed">
+	<a href="#main" data-rel="back" class="ui-btn ui-btn-left ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-carat-l">Back</a>
+		<h1>Tietoa ohjelmasta</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<p>Ostoslista on ohjelma, jonka avulla käyttäjä voi luoda listan tarvitsemistaan tuotteista. Listan tuotteet ovat tässä esimerkissä kiinteässä listassa, josta käyttäjä voi valita tuotteita omaan listaan.</p>
+		<p>Tässä esimerkkiohjelmassa on käytetty mm. <a href="http://jquerymobile.com/" target="_blank">jQuery Mobilen</a> elementtejä <b>ui-grid</b>, <b>listview</b>, <b>popup</b> sekä mahdollisuutta tallentaa paikallisesti (<b>localStorage</b>). Huomaa myös, että ohjelmakoodissa on paljon toistoa, joita tulisi oikeassa toimintaympäristössä karsia.</p>
+		<p>Tuotelista on sijoitettu eri tiedostoon, mutta se voisi olla hyvin myös muualta päivittyvä lista.</p>
+		<p>&copy; 2014 Tero Avellan</p>
+		<p><a href="http://users.turkuai.fi/users/tavellan/" target="_blank">http://users.turkuai.fi/users/tavellan/</a></p>
+	</div><!-- /content -->
+
+	<div data-role="footer" data-fullscreen="true" data-position="fixed">
+    <a href="#clearPopupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-right ui-btn-icon-right ui-icon-gear">Poista tallennettu ostolista</a>
+	</div><!-- /footer -->
+	<div data-role="popup" id="clearPopupDialog" data-overlay-theme="a" data-theme="a" data-dismissible="true" class="ui-corner-all">
+	    <div style="padding:10px 20px 30px 30px;">	
+			<h3>Oletko aivan varma?</h3>
+			<p>Tätä toimintoa ei voi peruuttaa.</p>
+			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Peruuta</a>
+			<a href="#" id="clearLocalStorage" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Poista</a>
+		</div>
+	</div>
+</div><!-- /page -->
+<!-- Start script when document is ready -->
+<script>
+    $(document).ready(function() {
+	    bootstrap();
+	    var tuotelistaHTML = '';
+	    var ostoslistaHTML = '';
+		$.each(tuotelistaJSON, function(key,obj) {
+			tuotelistaHTML += '<li id="' + key + '" data-icon="delete"><a href="#">' + obj.tuotenimi + '</a></li>';
+		});
+		$('#tuotelista').html(tuotelistaHTML).listview("refresh");
+		$.each(ostoslistaJSON, function(key,obj) {
+			ostoslistaHTML += '<li id="' + key + '" data-icon="delete"><a href="#">' + obj.tuotenimi + '</a></li>';
+		});
+		$('#ostoslista').html(ostoslistaHTML).listview("refresh");
+		$('#tuotelista').on('click','li',function(event){
+			$(this).clone().appendTo('#ostoslista');
+			$(this).remove();
+		});
+		$('#ostoslista').on('click','li',function(event){
+			$(this).clone().appendTo('#tuotelista');
+			$(this).remove();
+		});
+		$('#clearLocalStorage').on('click',function(event){
+			localStorage.clear();
+		    bootstrap();
+			$('#tuotelista').html(tuotelistaHTML).listview("refresh");
+			$('#ostoslista').html(ostoslistaHTML).listview("refresh");
+		});
+		$('#setLocalStorage').on('click',function(event){
+			localStorage.removeItem('ostoslista');
+			localStorage.removeItem('tuotelista');
+		    var tuotelistaTmp = [];
+			$('#tuotelista>li>a').each(function() {
+				var data = { 
+					//$(this).parent().attr('id')
+				    tuotenimi: $(this).text()
+					};
+				tuotelistaTmp.push(data);
+			});
+			localStorage.setItem('tuotelista',JSON.stringify(tuotelistaTmp));
+		    var ostoslistaTmp = [];
+			$('#ostoslista>li>a').each(function() {
+				var data = {
+				    tuotenimi: $(this).text()
+					};
+				ostoslistaTmp.push(data);
+				localStorage.setItem('ostoslista',JSON.stringify(ostoslistaTmp));
+			});
+		});		
+	});
+</script>
+<!-- /script -->
+</body>
