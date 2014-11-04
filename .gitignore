@@ -47,6 +47,14 @@ coverage.xml
 # Django stuff:
 *.log
 
+# Sublime Text, Spyder and CherryPy stuff
+*.cfg
+.spyderproject
+*.sublime-project
+*.sublime-workspace
+*~
+media/
+
 # Sphinx documentation
 docs/_build/
 
