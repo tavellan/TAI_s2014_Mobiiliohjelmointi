@@ -12,7 +12,7 @@
 		legend { font-weight: bold; }
 		#tuotelista { margin-top: 20px; }
 		#ostoslista { font-size: 150%; font-weight: bold;}
-		.ui-content { margin-top: 60px; }
+		.ui-content { margin-top: 0px; padding-top: 7px; }
 		.footer-button-left,
 		.footer-button-right {
 			position: absolute;
@@ -53,7 +53,7 @@
 <!-- Start of main page -->
 <div data-role="page" id="main">
 
-	<div data-role="header" data-fullscreen="true" data-position="fixed">
+	<div data-role="header" data-position="fixed">
 	        <h1>Ostoslista</h1>
 			<button id="setLocalStorage" class="ui-btn-right ui-btn ui-btn-a ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Tallenna</button>
 	</div><!-- /header -->
@@ -81,7 +81,7 @@
 
 	</div><!-- /content -->
 
-	<div data-role="footer" data-fullscreen="true" data-position="fixed">
+	<div data-role="footer" data-position="fixed">
     <a href="#about" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-info">Tietoa ohjelmasta</a>
 	</div><!-- /footer -->
 </div><!-- /page -->
@@ -89,7 +89,7 @@
 <!-- Start of about page -->
 <div data-role="page" id="about">
 
-	<div data-role="header" data-fullscreen="true" data-position="fixed">
+	<div data-role="header" data-position="fixed">
 	<a href="#main" data-rel="back" class="ui-btn ui-btn-left ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-carat-l">Back</a>
 		<h1>Tietoa ohjelmasta</h1>
 	</div><!-- /header -->
@@ -102,7 +102,7 @@
 		<p><a href="http://users.turkuai.fi/users/tavellan/" target="_blank">http://users.turkuai.fi/users/tavellan/</a></p>
 	</div><!-- /content -->
 
-	<div data-role="footer" data-fullscreen="true" data-position="fixed">
+	<div data-role="footer" data-position="fixed">
     <a href="#clearPopupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-right ui-btn-icon-right ui-icon-gear">Poista tallennettu ostolista</a>
 	</div><!-- /footer -->
 	<div data-role="popup" id="clearPopupDialog" data-overlay-theme="a" data-theme="a" data-dismissible="true" class="ui-corner-all">
@@ -128,21 +128,21 @@
 			ostoslistaHTML += '<li id="' + key + '" data-icon="delete"><a href="#">' + obj.tuotenimi + '</a></li>';
 		});
 		$('#ostoslista').html(ostoslistaHTML).listview("refresh");
-		$('#tuotelista').on('click','li',function(event){
+		$('#tuotelista').on('vclick','li',function(event){
 			$(this).clone().appendTo('#ostoslista');
 			$(this).remove();
 		});
-		$('#ostoslista').on('click','li',function(event){
+		$('#ostoslista').on('vclick','li',function(event){
 			$(this).clone().appendTo('#tuotelista');
 			$(this).remove();
 		});
-		$('#clearLocalStorage').on('click',function(event){
+		$('#clearLocalStorage').on('vclick',function(event){
 			localStorage.clear();
 		    bootstrap();
 			$('#tuotelista').html(tuotelistaHTML).listview("refresh");
 			$('#ostoslista').html(ostoslistaHTML).listview("refresh");
 		});
-		$('#setLocalStorage').on('click',function(event){
+		$('#setLocalStorage').on('vclick',function(event){
 			localStorage.removeItem('ostoslista');
 			localStorage.removeItem('tuotelista');
 		    var tuotelistaTmp = [];
