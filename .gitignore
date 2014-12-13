@@ -55,6 +55,11 @@ coverage.xml
 *~
 media/
 
+# Sublime Text & CoffeeScript
+*.coffee
+common-src/
+Cakefile
+
 # Sphinx documentation
 docs/_build/
 
